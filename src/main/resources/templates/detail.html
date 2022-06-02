@@ -16,6 +16,7 @@
 
 </head>
 <style>
+    /*상세보기*/
     #cards-box1 {
         margin-top: 12px;
     }
@@ -60,9 +61,275 @@
         word-wrap: break-word;
         word-break: break-all;
     }
+
+    /*댓글*/
+    .area-write1 {
+        position: relative;
+        width: 538px;
+
+    }
+
+    .area-write1 img {
+        cursor: pointer;
+        position: absolute;
+        width: 22.2px;
+        height: 18.7px;
+        bottom: 15px;
+        right: 17px;
+
+
+    }
+    .wrap-form1{
+        margin-bottom: 5px;
+    }
+
+    textarea.field1 {
+        width: 502px !important;
+        height: 146px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: none;
+        padding: 18px;
+        resize: none;
+    }
+
+    textarea.field1::placeholder {
+        width: 216px;
+        height: 16px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: -0.96px;
+        text-align: left;
+        color: #868e96;
+    }
+    /*댓글조회*/
+    #comment-box {
+        margin-top: 12px;
+    }
+    .card2 {
+        width: 538px;
+        height: 100px ;
+        border-radius: 5px;
+        background-color: #ffffff;
+        margin-bottom: 12px;
+    }
+
+    .card2 .metadata2 {
+        position: relative;
+        display: flex;
+        font-family: 'Spoqa Han Sans';
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: -0.77px;
+        text-align: left;
+        color: #adb5bd;
+        height: 14px;
+        padding: 10px 23px;
+    }
+
+    .card2 .metadata2 .date2 {
+        margin-left: 20px;
+    }
+
+    .card2 .metadata2 .username2 {
+        margin-left: 20px;
+    }
+
+    .contents2 {
+        font-size: 20px;
+        padding: 0px 23px;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+
+    .footer2 {
+        position: relative;
+        height: 40px;
+    }
+
+    .form-floating1{
+        position: absolute;
+        width: 120px;
+        height: 18px;
+        bottom: 16px;
+        right: 150px;
+    }
+
+
+
+    .contents2 div.edit {
+        display: none;
+    }
+
+    .contents2 textarea.te-edit {
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        resize: none;
+        border-bottom: 1px solid #212529;
+        width: 100%;
+        font-family: 'Spoqa Han Sans';
+    }
+
+    .footer2 img.icon-start-edit {
+        cursor: pointer;
+        position: absolute;
+        bottom: 14px;
+        right: 55px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .footer2 img.icon-end-edit {
+        cursor: pointer;
+        position: absolute;
+        display: none;
+        bottom: 14px;
+        right: 55px;
+        width: 20px;
+        height: 15px;
+    }
+
+    .footer2 img.icon-delete {
+        cursor: pointer;
+        position: absolute;
+        bottom: 12px;
+        right: 19px;
+        width: 14px;
+        height: 18px;
+    }
+
 </style>
 
 <script>
+    function editPost1(id) {
+        showEdits1(id);
+        let comments = $(`#${id}-comments`).text().trim();
+        $(`#${id}-textarea`).val(comments);
+    }
+
+    function showEdits1(id) {
+        $(`#${id}-editarea2`).show();
+        $(`#${id}-submit`).show();
+        $(`#${id}-delete`).show();
+
+        $(`#${id}-contents2`).hide();
+        $(`#${id}-edit`).hide();
+    }
+
+    function hideEdits(id) {
+        $(`#${id}-editarea2`).hide();
+        $(`#${id}-submit`).hide();
+        $(`#${id}-delete`).hide();
+
+        $(`#${id}-contents2`).show();
+        $(`#${id}-edit`).show();
+    }
+
+
+
+
+
+    // 댓글작성
+    function writeComment() {
+        // 1. 작성한 메모를 불러옵니다.
+        let comments = $('#comments').val();
+        // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+        if (isValidContents(comments) == false) {
+            return;
+        }
+        // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
+        let username = $('#username').val();
+        // 4. 전달할 data JSON으로 만듭니다.
+        let data = {'username': username,'comments': comments};
+        // 5. POST /api/memos 에 data를 전달합니다.
+        $.ajax({
+            type: "POST",
+            url: "/api/comments",
+            contentType: "application/json", // JSON 형식으로 전달함을 알리기
+            data: JSON.stringify(data), //JSON.stringify(data)는 JSON 문자열로 변환시켜줌
+            success: function (response) {
+                alert('댓글이 성공적으로 작성되었습니다.');
+                window.location.reload();
+            }
+        });
+    }
+
+
+    //댓글 전체조회
+    $(document).ready(function () {
+        // HTML 문서를 로드할 때마다 실행합니다.
+        getMessages();
+    })
+
+    // 메모를 불러와서 보여줍니다.
+    function getMessages() {
+        // 1. 기존 메모 내용을 지웁니다.
+        $('#comment-box').empty();
+        // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+        $.ajax({
+            type: 'GET',
+            url: '/api/comments',
+            data: {},
+            success: function (response) {
+                for (let i= 0; i<response.length;i++){
+                    let blog = response[i];
+                    let id = blog.id;
+                    let comments = blog.comments;
+                    let userName = blog.username
+                    let modifiedAt = blog.modifiedAt;
+                    addHTML(id, comments, modifiedAt,userName);
+
+                }
+            }
+        })
+    }
+    // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
+    function addHTML(id, comments, modifiedAt,userName) {
+        let tempHtml = makeMessage(id, userName, comments, modifiedAt);
+        $('#comment-box').append(tempHtml);
+
+
+    }
+
+    // 1. HTML 태그를 만듭니다.
+    function makeMessage(id, userName, comments, modifiedAt){
+        return  `
+                      <div class="card2">
+                                <!-- date/username 영역 // 제목영역 추가 ! -->
+                            <div class="metadata2">
+                            <div class="date2">
+                                ${modifiedAt}
+                            </div>
+                            <div id="${id}-username" class="username2">
+                                ${userName}
+                            </div>
+                        </div>
+                            <!-- contents 조회/수정 영역-->
+                            <div class="contents2">
+                                <div id="${id}-contents2" class="text">
+                                    ${comments}
+                                </div>
+                                <div id="${id}-editarea2" class="edit">
+                                    <textarea id="${id}-textarea2" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <!--비밀번호영역-->
+                            <div class="footer2">
+                                <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt=""  onclick="editPost1('${id}')">
+                                    <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt=""  onclick="deleteOne1('${id}')">
+                                        <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit1('${id}')">
+                            </div>
+                        </div>
+                        `;
+    }
 
 
 </script>
@@ -77,8 +344,8 @@
 
 </div>
 <div class="wrap">
+<!--    베너-->
     <div class="header">
-
         <h2>LifeLine</h2>
         <p>
             About your story
@@ -86,26 +353,11 @@
         <button onclick="location.href='/'">
             HOME
         </button>
-<!--        <form id="my_form" method="post" action="/user/logout">-->
-<!--            <div id="id-wrap" th:if="${loginStatus}">-->
-<!--                안녕하세요!-->
-<!--                <span id="user-id"  th:text="${blog.username}"></span>님-->
-<!--            </div>-->
-<!--            &lt;!&ndash;            <button id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</button>&ndash;&gt;-->
-<!--            <button id="login-text" th:if="!${loginStatus}" type="button"  onclick="location.href='/user/login'" class="btn btn-outline-warning">-->
-<!--                로그인-->
-<!--            </button>-->
-<!--            <button id="logout-text" th:if="${loginStatus}" href="javascript:{}" onclick="document.getElementById('my_form').submit();" class="btn btn-outline-warning">-->
-<!--                로그아웃-->
-<!--            </button>-->
-<!--        </form>-->
     </div>
-
+<!--게시물 상세보기 박스-->
     <div id="cards-box1" class="area-read">
     <div class="card1">
-        <!-- date/username 영역 // 제목영역 추가 ! -->
         <div class="metadata1">
-
             <div  th:text="${blog.title}" class="title1">
             </div>
 
@@ -114,28 +366,24 @@
 
             <div th:text="${blog.username}" class="username1">
             </div>
-
         </div>
-        <!-- contents 조회/수정 영역-->
         <div class="contents1">
             <div th:text="${blog.contents}" class="text">
             </div>
         </div>
-        <!--비밀번호영역-->
-
     </div>
     </div>
 
+<!--    댓글-->
+    <div class="area-write1" id="write-box1">
+        <div class="wrap-form1">
+        </div>
+        <textarea class="field1" placeholder="댓글을 입력해주세요" name="contents" id="comments" cols="30" rows="10"></textarea>
+        <img src="/images/send.png" alt="" onclick="writeComment()">
+    </div>
 
-
-<!--        <div>-->
-
-
-<!--        <h2 th:text="${blog.title}"></h2>-->
-<!--        <h2 th:text="${blog.contents}"></h2>-->
-<!--        <h2 th:text="${blog.username}"></h2>-->
-<!--    </div>-->
-
+    <div id="comment-box" class="area-read">
+    </div>
 
 </div>
 

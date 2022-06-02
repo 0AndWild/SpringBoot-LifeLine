@@ -75,12 +75,5 @@ public class BlogController {
             return 0L;
         }
 
-
-//     if(blogService.update(id, requestDto)){//blogService.update(id, requestDto) == true로 이해하면 될 것 같다. // ctrl + update 누르면 사용된 위치로 가게됨
-//         return 1L; //service class에서 true를 반환하면 1로 return // L은 Long 타입으로 선언하였기 떄문에 붙여줘야 에러가 안남!
-//     } else {
-//         return 0L; //service class에서 false를 반환하면 0로 return
-//     }
-
     }
 }
