@@ -10,6 +10,8 @@ import com.mymy.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,13 +49,8 @@ public class BlogController {
         return blogRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    //게시글 상세페이지
-    @GetMapping("/api/contents/{id}")
-    public Blog getblog(@PathVariable Long id) {
-        Blog blog =  blogRepository.findById(id).orElseThrow(
-                ()->new IllegalArgumentException("contentsId가 존재하지 않습니다."));
-        return blog;
-    }
+
+
 
     //게시물 삭제
     @DeleteMapping("/api/blogs/{id}")
@@ -72,8 +69,7 @@ public class BlogController {
     //게시물 수정
     @PutMapping ("/api/blogs/{id}")
     public Long updateBlog(@PathVariable Long id,@RequestBody BlogRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-
-        if(blogService.update(id,requestDto,userDetails)){
+        if(blogService.update(id,requestDto,userDetails) == 1L){
             return 1L;
         } else {
             return 0L;

@@ -36,15 +36,17 @@ public class BlogService {
 
     //게시물 수정
     @Transactional //이게 업데이트될 때 DB에 정말 반영이 되야된다고 말해줌
-    public boolean update(Long id, BlogRequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails) { //boolean 타입으로 변환시켜 밑에서 true or false값을 반환
+    public Long update(Long id, BlogRequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails) { //boolean 타입으로 변환시켜 밑에서 true or false값을 반환
         Blog blog =  blogRepository.findById(id).orElseThrow(
                 ()->new IllegalArgumentException("contentsId가 존재하지 않습니다."));
         String name = blog.getUsername(); //레포에 저장된 username
         String username = userDetails.getUser().getUsername(); // 로그인한 username
         if(name.equals(username)){
             blog.update(requestDto);
-            return true;
-        } return false;
+            return 1L;
+        } else {
+            return 0L;
+        }
 
     }
 

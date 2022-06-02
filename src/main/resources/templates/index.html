@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,14 @@
 
 </head>
 
+<script th:inline="javascript">
+
+
+
+
+
+</script>
+
 <body>
 
 
@@ -26,6 +34,7 @@
 
 </div>
 <div class="wrap">
+<!--    베너-->
     <div class="header">
 
         <h2>LifeLine</h2>
@@ -33,27 +42,35 @@
             About your story
         </p>
         <form id="my_form" method="post" action="/user/logout">
-            <div id="id-wrap">
+
+            <div id="id-wrap" th:if="${loginStatus}">
                 안녕하세요!
-                <span id="user-id" th:text="${username}"></span>님
+                <span id="user-id"  th:text="${username}"></span>님
             </div>
-<!--            <button id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</button>-->
-            <button id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();" class="btn btn-outline-warning">
+
+            <button id="login-text" th:if="!${loginStatus}" type="button"  onclick="location.href='/user/login'" class="btn btn-outline-warning">
+                로그인
+            </button>
+
+            <button id="logout-text" th:if="${loginStatus}" href="javascript:{}" onclick="document.getElementById('my_form').submit();" class="btn btn-outline-warning">
                 로그아웃
             </button>
         </form>
     </div>
-    <div class="area-write">
-        <div class="wrap-form">
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control1" id="title" placeholder="제목">
+
+<!--    게시글 작성-->
+    <button class="write-button"  th:if="${loginStatus}" onclick="open_box()">글쓰기</button>
+        <div class="area-write" id="write-box">
+            <div class="wrap-form">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control1" id="title" placeholder="제목">
+                </div>
             </div>
+            <textarea class="field" placeholder="당신의 이야기를 들려주세요" name="contents" id="contents" cols="30" rows="10"></textarea>
+            <button class="close-button"  th:if="${loginStatus}" onclick="close_box()">X</button>
+            <img src="../images/send.png" alt="" onclick="writePost()">
         </div>
-        <textarea class="field" placeholder="당신의 이야기를 들려주세요" name="contents" id="contents" cols="30"
-                  rows="10"></textarea>
-        <!--            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
-        <img src="../images/send.png" alt="" onclick="writePost()">
-    </div>
+
     <div id="cards-box" class="area-read">
     </div>
 </div>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="LifeLine">
+    <meta property="og:description" content="당신의 오늘하루 이야기를 들려주세요!">
+    <meta property="og:image" content="images/lifeline.jpg">
+    <title>Timeline Service</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/scripts/basic.js"></script>
+
+</head>
+<style>
+    #cards-box1 {
+        margin-top: 12px;
+    }
+    .card1 {
+        width: 538px;
+        height: 100px ;
+        border-radius: 5px;
+        background-color: #ffffff;
+        margin-bottom: 12px;
+    }
+
+    .card1 .metadata1 {
+        position: relative;
+        display: flex;
+        font-family: 'Spoqa Han Sans';
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: -0.77px;
+        text-align: left;
+        color: #adb5bd;
+        height: 14px;
+        padding: 10px 23px;
+    }
+    .card1 .metadata1 .title1 {
+
+    }
+
+    .card1 .metadata1 .date1 {
+        margin-left: 20px;
+    }
+
+    .card1 .metadata1 .username1 {
+        margin-left: 20px;
+    }
+
+    .contents1 {
+        font-size: 20px;
+        padding: 0px 23px;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+</style>
+
+<script>
+
+
+</script>
+
+<body>
+
+
+<div class="background-header">
+
+</div>
+<div class="background-body">
+
+</div>
+<div class="wrap">
+    <div class="header">
+
+        <h2>LifeLine</h2>
+        <p>
+            About your story
+        </p>
+        <button onclick="location.href='/'">
+            HOME
+        </button>
+<!--        <form id="my_form" method="post" action="/user/logout">-->
+<!--            <div id="id-wrap" th:if="${loginStatus}">-->
+<!--                안녕하세요!-->
+<!--                <span id="user-id"  th:text="${blog.username}"></span>님-->
+<!--            </div>-->
+<!--            &lt;!&ndash;            <button id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</button>&ndash;&gt;-->
+<!--            <button id="login-text" th:if="!${loginStatus}" type="button"  onclick="location.href='/user/login'" class="btn btn-outline-warning">-->
+<!--                로그인-->
+<!--            </button>-->
+<!--            <button id="logout-text" th:if="${loginStatus}" href="javascript:{}" onclick="document.getElementById('my_form').submit();" class="btn btn-outline-warning">-->
+<!--                로그아웃-->
+<!--            </button>-->
+<!--        </form>-->
+    </div>
+
+    <div id="cards-box1" class="area-read">
+    <div class="card1">
+        <!-- date/username 영역 // 제목영역 추가 ! -->
+        <div class="metadata1">
+
+            <div  th:text="${blog.title}" class="title1">
+            </div>
+
+            <div th:text="${blog.modifiedAt}" class="date1">
+            </div>
+
+            <div th:text="${blog.username}" class="username1">
+            </div>
+
+        </div>
+        <!-- contents 조회/수정 영역-->
+        <div class="contents1">
+            <div th:text="${blog.contents}" class="text">
+            </div>
+        </div>
+        <!--비밀번호영역-->
+
+    </div>
+    </div>
+
+
+
+<!--        <div>-->
+
+
+<!--        <h2 th:text="${blog.title}"></h2>-->
+<!--        <h2 th:text="${blog.contents}"></h2>-->
+<!--        <h2 th:text="${blog.username}"></h2>-->
+<!--    </div>-->
+
+
+</div>
+
+</body>
+
+</html>

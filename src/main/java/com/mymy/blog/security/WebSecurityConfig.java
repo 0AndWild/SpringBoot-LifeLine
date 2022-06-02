@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
 
+
 //                .antMatchers("/rest/api/**" ).permitAll()
                 .mvcMatchers("/css/**","/scripts/**","/images/**").permitAll() //resources 파일 예외처리
 
@@ -46,8 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/").permitAll()
 // 그 외 어떤 요청이든 '인증'
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
 // [로그인 기능]
                 .formLogin()
@@ -65,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
 // 로그아웃 처리 URL (GET/ user/logout)
                 .logoutUrl("/user/logout")
+                .logoutSuccessUrl("/")
                 .permitAll();
     }
 }

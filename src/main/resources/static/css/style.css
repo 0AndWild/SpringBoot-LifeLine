@@ -19,9 +19,30 @@ body {
     height: 100px;
 }
 
+.write-button{
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    left: 46%;
+    top: 200px;
+}
+
 .area-write {
     position: relative;
     width: 538px;
+
+    display: none;
+}
+
+.close-button{
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    right: 13px;
+    text-align: center;
 }
 
 .area-write img {
@@ -31,6 +52,8 @@ body {
     height: 18.7px;
     bottom: 15px;
     right: 17px;
+
+
 }
 .wrap-form{
     margin-bottom: 5px;
@@ -43,7 +66,7 @@ body {
     top: 0px;
     width: 100%;
     height: 428px;
-    background-color: dimgray;
+    background-color: aliceblue;
 }
 
 .background-body {
@@ -52,7 +75,7 @@ body {
     top: 428px;
     height: 100%;
     width: 100%;
-    background-color: #dee2e6;
+    background-color: #15aabf;
 }
 
 .header {
@@ -62,14 +85,14 @@ body {
 .header h2 {
     /*font-family: 'Noto Sans KR', sans-serif;*/
     height: 33px;
-    font-size: 42px;
-    font-weight: 500;
+    font-size: 70px;
+    font-weight: 800;
     font-stretch: normal;
     font-style: normal;
     line-height: 0.79;
     letter-spacing: -0.5px;
     text-align: center;
-    color: #ffffff;
+    color: #15aabf;
 }
 
 .header p {
@@ -77,14 +100,14 @@ body {
     width: 217px;
     height: 48px;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 25px;
+    font-weight: 700;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.5;
     letter-spacing: -1.12px;
     text-align: center;
-    color: #ffffff;
+    color: #15aabf;
 }
 
 textarea.field {
@@ -122,7 +145,7 @@ textarea.field::placeholder {
     position: relative;
     display: flex;
     font-family: 'Spoqa Han Sans';
-    font-size: 11px;
+    font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -146,6 +169,7 @@ textarea.field::placeholder {
 }
 
 .contents {
+    font-size: 20px;
     padding: 0px 23px;
     word-wrap: break-word;
     word-break: break-all;
@@ -179,6 +203,16 @@ textarea.field::placeholder {
 }
 
 
+
+.comments{
+    cursor: pointer;
+    position: absolute;
+    bottom: 14px;
+    right: 80px;
+    width: 55px;
+    height: 20px;
+}
+
 .footer img.icon-start-edit {
     cursor: pointer;
     position: absolute;
@@ -208,7 +242,7 @@ textarea.field::placeholder {
 }
 
 #cards-box {
-    margin-top: 12px;
+    margin-top: 60px;
 }
 .form-control1{
     width: 200px;
@@ -255,13 +289,13 @@ textarea.field::placeholder {
     /*margin: 56px auto auto auto;*/
     flex-grow: 0;
     font-family: SpoqaHanSansNeo;
-    font-size: 32px;
+    font-size: 50px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: 1;
     letter-spacing: -0.96px;
-    text-align: left;
+    text-align: center;
     color: #212529;
 }
 
@@ -380,12 +414,14 @@ textarea.field::placeholder {
 
 #id-wrap{
     font-family: SpoqaHanSansNeo;
-    font-size: 10px;
+    font-size: 20px;
+    font-weight: 300;
+    color: #ffd43b;
     margin-right: 8px;
 }
 #user-id{
     font-family: SpoqaHanSansNeo;
-    font-size: 10px;
+    font-size: 20px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -398,10 +434,10 @@ textarea.field::placeholder {
 
 }
 
-#logout-text {
-    font-size: 5px;
+#login-text {
+    font-size: 20px;
     font-family: SpoqaHanSansNeo;
-    font-weight: 500;
+    font-weight: 700;
     font-stretch: normal;
     font-style: normal;
     line-height: 1;
@@ -409,8 +445,23 @@ textarea.field::placeholder {
     text-align: center;
     color: orange;
 
-    width: 65px;
-    height: 15px;
+    width: 120px;
+    height: 40px;
+}
+
+#logout-text {
+    font-size: 20px;
+    font-family: SpoqaHanSansNeo;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0.36px;
+    text-align: center;
+    color: orange;
+
+    width: 120px;
+    height: 40px;
 }
 
 
