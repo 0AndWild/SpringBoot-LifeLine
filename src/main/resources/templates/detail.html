@@ -149,26 +149,11 @@
         word-break: break-all;
     }
 
-    .footer2 {
-        position: relative;
-        height: 40px;
-    }
-
-    .form-floating1{
-        position: absolute;
-        width: 120px;
-        height: 18px;
-        bottom: 16px;
-        right: 150px;
-    }
-
-
-
-    .contents2 div.edit {
+    .contents2 div.edit2 {
         display: none;
     }
 
-    .contents2 textarea.te-edit {
+    .contents2 textarea.te-edit2{
         border-right: none;
         border-top: none;
         border-left: none;
@@ -178,7 +163,13 @@
         font-family: 'Spoqa Han Sans';
     }
 
-    .footer2 img.icon-start-edit {
+    .footer2 {
+        position: relative;
+        height: 40px;
+    }
+
+
+    .footer2 img.icon-start-edit1 {
         cursor: pointer;
         position: absolute;
         bottom: 14px;
@@ -187,7 +178,7 @@
         height: 18px;
     }
 
-    .footer2 img.icon-end-edit {
+    .footer2 img.icon-end-edit1 {
         cursor: pointer;
         position: absolute;
         display: none;
@@ -197,7 +188,7 @@
         height: 15px;
     }
 
-    .footer2 img.icon-delete {
+    .footer2 img.icon-delete1 {
         cursor: pointer;
         position: absolute;
         bottom: 12px;
@@ -212,25 +203,25 @@
     function editPost1(id) {
         showEdits1(id);
         let comments = $(`#${id}-comments`).text().trim();
-        $(`#${id}-textarea`).val(comments);
+        $(`#${id}-textarea2`).val(comments);
     }
 
     function showEdits1(id) {
         $(`#${id}-editarea2`).show();
-        $(`#${id}-submit`).show();
-        $(`#${id}-delete`).show();
+        $(`#${id}-submit1`).show();
+        $(`#${id}-delete1`).show();
 
         $(`#${id}-contents2`).hide();
-        $(`#${id}-edit`).hide();
+        $(`#${id}-edit1`).hide();
     }
 
     function hideEdits(id) {
         $(`#${id}-editarea2`).hide();
-        $(`#${id}-submit`).hide();
-        $(`#${id}-delete`).hide();
+        $(`#${id}-submit1`).hide();
+        $(`#${id}-delete1`).hide();
 
         $(`#${id}-contents2`).show();
-        $(`#${id}-edit`).show();
+        $(`#${id}-edit1`).show();
     }
 
 
@@ -293,16 +284,7 @@
     }
     // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
     function addHTML(id, comments, modifiedAt,userName) {
-        let tempHtml = makeMessage(id, userName, comments, modifiedAt);
-        $('#comment-box').append(tempHtml);
-
-
-    }
-
-    // 1. HTML 태그를 만듭니다.
-    function makeMessage(id, userName, comments, modifiedAt){
-        return  `
-                      <div class="card2">
+      let tempHtml = `<div class="card2">
                                 <!-- date/username 영역 // 제목영역 추가 ! -->
                             <div class="metadata2">
                             <div class="date2">
@@ -314,21 +296,75 @@
                         </div>
                             <!-- contents 조회/수정 영역-->
                             <div class="contents2">
-                                <div id="${id}-contents2" class="text">
+                                <div id="${id}-comments" class="text2">
                                     ${comments}
                                 </div>
-                                <div id="${id}-editarea2" class="edit">
-                                    <textarea id="${id}-textarea2" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+                                <div id="${id}-editarea2" class="edit2">
+                                    <textarea id="${id}-textarea2" class="te-edit2" name="" id="" cols="30" rows="5"></textarea>
                                 </div>
                             </div>
                             <!--비밀번호영역-->
                             <div class="footer2">
-                                <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt=""  onclick="editPost1('${id}')">
-                                    <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt=""  onclick="deleteOne1('${id}')">
-                                        <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit1('${id}')">
+                                <img id="${id}-edit1" class="icon-start-edit1" src="/images/edit.png" alt=""  onclick="editPost1('${id}')">
+                                    <img id="${id}-delete1" class="icon-delete1" src="/images/delete.png" alt=""  onclick="deleteOne1('${id}')">
+                                        <img id="${id}-submit1" class="icon-end-edit1" src="/images/done.png" alt="" onclick="submitEdit1('${id}')">
                             </div>
-                        </div>
-                        `;
+                        </div> `;
+
+        $('#comment-box').append(tempHtml);
+    }
+
+   //댓글수정
+    function submitEdit1(id) {
+        // let passwordCheck =$(`#${id}-password2`).val();
+        // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+        let comments = $(`#${id}-textarea2`).val().trim();
+        // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+        if (isValidContents(contents) == false) {
+            return;
+        }
+
+        let data = {'comments': comments};
+        // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+        $.ajax({
+            type: "PUT",
+            url: `/api/comments/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                // alert("수정완료");
+                // window.location.reload();
+                // 이미 서버의 서비스 클래스에서 비밀번호 대조 검사가 완료되어져 있기 때문에
+                if (response == 1) {        //그 값을 어떻게 받아올지를 생각해주면 된다. controller에서 putMapping이
+                    alert("수정완료");   //Long타입으로 선언되어져 있었기 때문에 return을 1또는 0으로 받았지만
+                    window.location.reload(); // boolean타입으로 변경을 했을 경우 true 또는 false로도 값을 받을 수 있었을
+                } else {                        //것이다.
+                    alert("작성자 이외에는 수정할 수 없습니다");
+                    window.location.reload();
+                }
+
+
+            }
+        });
+    }
+
+
+//댓글 삭제
+    // 메모를 삭제합니다.
+    function deleteOne1(id) {
+        // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+        $.ajax({
+            type: "DELETE",
+            url: `/api/comments/${id}`,
+            success: function (response) {
+                if (response===1){
+                    alert("삭제완료!");
+                    window.location.reload();
+                } else {
+                    alert("작성자 이외에는 삭제가 불가능합니다");
+                }
+            }
+        })
     }
 
 

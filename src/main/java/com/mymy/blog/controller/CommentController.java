@@ -30,7 +30,7 @@ public class CommentController {
 
 
 
-
+    //댓글작성
     @PostMapping("/api/comments")
     public Comments createComment(@RequestBody CommentsRequestDto requestDto,
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -45,7 +45,7 @@ public class CommentController {
     }
 
 
-    //전체 게시글 조회
+    //전체 댓글조회
     @GetMapping("/api/comments")
     public List<Comments> getComments() {
         return commentsRepository.findAllByOrderByCreatedAtDesc();
@@ -54,7 +54,7 @@ public class CommentController {
 
 
 
-    //게시물 삭제
+    //댓글 삭제
     @DeleteMapping("/api/comments/{id}")
     public Long deleteComments(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if(commentsService.delete(id,userDetails)){
@@ -68,7 +68,7 @@ public class CommentController {
 //        @PathVariable은 경로안에있는(api의 중괄호{}) 정보를 넣어준다는 의미
 //         (이게 없으면 어떤 아이디인지 찾지 못해 밑에 return id; 에서 에러가남!
 
-    //게시물 수정
+    //댓글 수정
     @PutMapping ("/api/comments/{id}")
     public Long updateComments(@PathVariable Long id,@RequestBody CommentsRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(commentsService.update(id,requestDto,userDetails) == 1L){
